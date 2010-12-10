@@ -50,6 +50,11 @@ class ApacheBase(object):
         options.setdefault("http_port", "80")
         options.setdefault("https_port", "443")
 
+        if options.get("enhanced-privacy", None):
+            options.setdefault("logformat", '"0.0.0.0 %l %u %t \\"%r\\" %>s %b \\"%{Referer}i\\" \\"%{User-agent}i\\""')
+        else:
+            options.setdefault("logformat", "combined")
+
         # Record a SHA1 of the template we use, so we can detect changes in subsequent runs
         self.options["__hashes_template"] = sha1(open(self.options["template"]).read()).hexdigest()
 
@@ -204,13 +209,8 @@ class Redirect(ApacheBase):
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
 
-        opt = {
-            "serveradmin": self.options["serveradmin"],
-            "logdir": self.options["logdir"],
-            "interface": self.options["interface"],
-            "redirects": [],
-            }
-
+        opt = self.options.copy()
+        opt['redirects'] = []
         for line in self.options['redirects'].strip().split("\n"):
             line = line.strip()
             opt['redirects'].append(

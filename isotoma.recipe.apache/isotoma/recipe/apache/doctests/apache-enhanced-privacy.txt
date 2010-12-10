@@ -1,8 +1,8 @@
 Detailed Description
 ********************
 
-Simple creation of an apache config
-===================================
+Enhanced privacy
+================
 
 Lets create a minimal `buildout.cfg` file::
 
@@ -19,8 +19,7 @@ Lets create a minimal `buildout.cfg` file::
   ... interface = 192.168.0.99
   ... sitename = localhost
   ... proxyport = 8080
-  ... rewrites =
-  ...     ^/([0-9999]+)/([^.]+)\.htm$;/;R=301,L
+  ... enhanced-privacy = True
   ... ''')
 
 Now we can run buildout::
@@ -40,7 +39,7 @@ The template was indeed created::
       ServerAdmin nobody@localhost
       CustomLog /var/log/apache2/localhost-access.log combined
   <BLANKLINE>
-      ErrorLog /var/log/apache2/localhost-error.log
+      ErrorLog "|/usr/bin/awk \"'\"'{$8=\"0.0.0.0]\"; print}'\"'\" >> /var/log/apache2/localhost-error.log"
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
@@ -53,7 +52,6 @@ The template was indeed created::
   <BLANKLINE>
       RewriteEngine On
   <BLANKLINE>
-      RewriteRule ^/([0-9999]+)/([^.]+)\.htm$ / [R=301,L]
   <BLANKLINE>
       RewriteRule ^/(.*)$ http://localhost:8080/VirtualHostBase/http/localhost:80/portal/VirtualHostRoot/$1 [L,P]
   </VirtualHost>
@@ -61,4 +59,5 @@ The template was indeed created::
   <BLANKLINE>
   <BLANKLINE>
   # conditional, include lines
+
 

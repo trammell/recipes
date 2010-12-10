@@ -56,10 +56,12 @@ auto-www
     If true, the recipe will have a Redirect for www.${sitename}. If your sitename already has a www prefix, the alias will be sitename with the prefix trimmed.
 logdir
     Where to store apache logs (Default: /var/log/apache2)
+logformat
+    What apache logformat to use (Default: combined)
 protected
     A list of locations to set a basic auth password on, should be a list of lines of the format: <URI>:<realm>:<username>:<password>
-
-
+enhanced-privacy
+    Set to true to stop it logging IP addresses (Default: IP addresses are logged)
 
 Domain-level Redirects
 ======================
