@@ -61,6 +61,7 @@ class Logger(object):
             run = run + 1
 
         self.log = self.buildout['buildout'].get("buildout-log", path)
+        os.makedirs(os.path.dirname(self.log))
         self.snapshot_dst = self.buildout['buildout'].get("buildout-snapshot-dst", snapshot_path)
 
     def create_snapshot(self, src, dst):
